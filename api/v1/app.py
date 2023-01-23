@@ -1,35 +1,35 @@
 #!/usr/bin/python3
-"""
-Sets up Flask application
 
-"""
-
-
+"""Endpoint (route) will be to return the status of Api"""
+from models import storage
+from api.v1.views import app_views
 from os import getenv
-from flask import Flask, make_response, jsonify
+from flask import *
 from flask_cors import CORS
 
-from api.v1.views import app_views
-from models import storage
 
 app = Flask(__name__)
-CORS(app, orgins='0.0.0.0')
 app.register_blueprint(app_views)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "0.0.0.0"}})
+
+
+@app.teardown_appcontext
+def teardown(exception):
+    """closes the current sqlalchemy session"""
+    storage.close()
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    """Returns JSON error repsponse"""
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    """
+    Create a handler for 404 errors that returns a
+    JSON-formatted 404 status code response
+    """
+    return jsonify(error="Not found"), 404
 
 
-@app.teardown_appcontext
-def teardown(self):
-    """Closes storage session"""
-    storage.close()
-
-
-if __name__ == '__main__':
-    api_host = getenv('HBNB_API_HOST', default='0.0.0.0')
-    api_port = getenv('HBNB_API_PORT', default=8000)
-    app.run(host=api_host, port=int(api_port), threaded=True)
+if __name__ == "__main__":
+    host = getenv('HBNB_API_HOST') or '0.0.0.0'
+    port = getenv('HBNB_API_PORT') or '5000'
+    app.run(host=host, port=port, threaded=True)
