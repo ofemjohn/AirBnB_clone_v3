@@ -155,7 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Ofem John - (www.johnteacher.tech/linkedin), (www.johnteacher.tech/twitter)  
-Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Brian Murithi - [Github](https://github.com/brayohmurithidev) / [Linkedln](https://www.linkedin.com/in/brian-murithi/)
 
 Second part of Airbnb: Joann Vuong
 ## License
